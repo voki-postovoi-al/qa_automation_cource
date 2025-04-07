@@ -20,7 +20,7 @@ class BaseCalc():
         else: return print(a / b)
 
 
-class ModifinedCalc(BaseCalc):
+class ModifiedCalc(BaseCalc):
     def __init__(self):
         super().__init__()
         self.operations = {
@@ -45,12 +45,12 @@ class ModifinedCalc(BaseCalc):
             if data is None:
                 data = input('Enter data: ')
 
-            parseData = re.fullmatch(pattern=pattern, string=data)
+            parse_data = re.fullmatch(pattern=pattern, string=data)
 
-            if parseData:
-                a = float(parseData.group(1))
-                op = parseData.group(3)
-                b = float(parseData.group(4))
+            if parse_data:
+                a = float(parse_data.group(1))
+                op = parse_data.group(3)
+                b = float(parse_data.group(4))
 
                 if op in self.operations:
                     self.operations[op](a, b)
@@ -63,5 +63,5 @@ class ModifinedCalc(BaseCalc):
 
 
 
-c = ModifinedCalc()
+c = ModifiedCalc()
 c.calculate_from_input()
