@@ -15,9 +15,22 @@ class BaseCalc():
         return print(a * b)
 
     def division(self, a, b):
-        return print(a / b)
+        if b == 0:
+            print('division by zero !')
+        else: return print(a / b)
+
 
 class ModifinedCalc(BaseCalc):
+    def __init__(self):
+        super().__init__()
+        self.operations = {
+            '+': self.plus,
+            '-': self.minus,
+            '*': self.multiple,
+            '/': self.division
+        }
+
+
     def plus(self, *args):
         if len(args) == 1 and hasattr(args[0], '__iter__'):
             return print(sum(args[0]))
@@ -28,27 +41,24 @@ class ModifinedCalc(BaseCalc):
 
     def calculate_from_input(self, data=None):
         pattern = r'^(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)$'
-        if data is None:
-            data = input('Enter data: ')
+        while True:
+            if data is None:
+                data = input('Enter data: ')
 
-        parseData = re.fullmatch(pattern=pattern, string=data)
+            parseData = re.fullmatch(pattern=pattern, string=data)
 
-        if parseData:
-            a = float(parseData.group(1))
-            op = parseData.group(3)
-            b = float(parseData.group(4))
+            if parseData:
+                a = float(parseData.group(1))
+                op = parseData.group(3)
+                b = float(parseData.group(4))
 
-        operations = {
-            '+' : self.plus,
-            '-' : self.minus,
-            '*' : self.multiple,
-            '/' : self.division
-        }
+                if op in self.operations:
+                    self.operations[op](a, b)
+                    break
+            else:
+                print('not valid data, try again')
+                data = None
 
-        if op in operations:
-            operations[op](a, b)
-        else:
-            print(f'not valid data: {data}')
 
 
 
